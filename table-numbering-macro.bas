@@ -18,8 +18,8 @@ cursorCorrected = false
 pageNum = cursor.page
 nextPageNum = cursor.page
 do	  
-	element(0).Name = "Text"
-	element(0).Value = Cstr(cellValue)
+    element(0).Name = "Text"
+    element(0).Value = Cstr(cellValue)
     dispatcher.executeDispatch(document, ".uno:InsertText", "", 0, element())
     originalPosition = cursor.position.y
     dispatcher.executeDispatch(document, ".uno:GoDown", "", 0, element())
@@ -27,20 +27,20 @@ do
     
     positionDifference = nextPosition - originalPosition
     if positionDifference > 690 then
-    	dispatcher.executeDispatch(document, ".uno:GoUp", "", 0, element())
-    	if not cursorCorrected then
-    		dispatcher.executeDispatch(document, ".uno:GoRight", "", 0, element()
-    		cursorCorrected = true
-    	end if
-    	dispatcher.executeDispatch(document, ".uno:InsertPara", "", 0, Array())
+        dispatcher.executeDispatch(document, ".uno:GoUp", "", 0, element())
+        if not cursorCorrected then
+    	    dispatcher.executeDispatch(document, ".uno:GoRight", "", 0, element()
+    	    cursorCorrected = true
+        end if
+        dispatcher.executeDispatch(document, ".uno:InsertPara", "", 0, Array())
     end if
     
     nextPageNum = cursor.page
     if nextPageNum <> pageNum then
-    	cellValue = 1
-    	pageNum = nextPageNum
+        cellValue = 1
+        pageNum = nextPageNum
     else
-    	cellValue = cellValue + 1
+        cellValue = cellValue + 1
     end if   
 loop until isEmpty(cursor.cell)
 
