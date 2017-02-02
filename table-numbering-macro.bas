@@ -5,7 +5,8 @@ sub TableNumbering
     dim document   as object
     dim dispatcher as object
     CELL_CURSOR_GAP = 690
-    CELL_PAGE_GAP = 6234
+    CELL_PAGE_GAP_START = 6200
+    CELL_PAGE_GAP_END = 6900
     document   = ThisComponent.CurrentController.Frame
     dispatcher = createUnoService("com.sun.star.frame.DispatchHelper")
     cursor = ThisComponent.currentController.getViewCursor()
@@ -31,10 +32,12 @@ sub TableNumbering
                 dispatcher.executeDispatch(document, ".uno:GoRight", "", 0, element()
                 cursorCorrected = true
             end if
-            if positionDifference <> CELL_PAGE_GAP then
-                dispatcher.executeDispatch(document, ".uno:InsertPara", "", 0, Array())
-            else
+            
+            ' don't add a paragraph during page transitions
+            if positionDifference > CELL_PAGE_GAP_START and positionDifference < CELL_PAGE_GAP_END then
                 dispatcher.executeDispatch(document, ".uno:GoDown", "", 0, element())
+            else
+            	dispatcher.executeDispatch(document, ".uno:InsertPara", "", 0, Array())  
             end if
         end if
         
